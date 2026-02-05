@@ -41,9 +41,22 @@ function Import-VcVars64 {
     }
 }
 
+function Test-WindowsHeaders {
+    if (-not $env:INCLUDE) {
+        return $false
+    }
+    foreach ($p in $env:INCLUDE.Split(';')) {
+        if ($p -and (Test-Path (Join-Path $p 'Windows.h'))) {
+            return $true
+        }
+    }
+    return $false
+}
+
 if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue)) {
     Import-VcVars64
-} elseif (-not $env:INCLUDE) {
+}
+if (-not (Test-WindowsHeaders)) {
     Import-VcVars64
 }
 
