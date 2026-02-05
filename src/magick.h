@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   png.h                                              :+:      :+:    :+:   */
+/*   magick.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvkvkv <kvkvkv@student.42.rio>             #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 00:00:00 by kvkvkv            #+#    #+#             */
-/*   Updated: 2026/02/04 00:00:00 by kvkvkv           ###   ########.fr       */
+/*   Created: 2026/02/05 00:00:00 by kvkvkv            #+#    #+#             */
+/*   Updated: 2026/02/05 00:00:00 by kvkvkv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PNG_H
-# define PNG_H
+#ifndef MAGICK_H
+# define MAGICK_H
 
 # include "util.h"
 
-t_bool	save_png(const wchar_t *path, const t_image *img);
-t_bool	load_png(const wchar_t *path, t_image *out);
+t_bool	magick_available(void);
+t_bool	magick_shadow_png(const wchar_t *in_path,
+			const wchar_t *out_path);
 
 #endif

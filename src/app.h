@@ -12,6 +12,9 @@
 #ifndef APP_H
 # define APP_H
 
+# include "util.h"
+
 void	app_handle_hotkey(void);
+void	app_save(HWND hwnd, const t_image *win);
 
 #endif

@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 add_executable(shot11
   src/main.c
   src/app.c
+  src/app_save.c
   src/capture.c
   src/capture_bgra.c
   src/capture_utils.c
@@ -19,9 +20,12 @@ add_executable(shot11
   src/shadow_blur_alpha.c
   src/clipboard.c
   src/png.c
+  src/png_load.c
   src/png_wic_open.c
   src/png_wic_write.c
   src/path.c
+  src/magick.c
+  src/render.c
   src/util.c
   src/util_mem.c
   src/util_str.c

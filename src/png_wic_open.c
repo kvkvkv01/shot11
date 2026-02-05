@@ -44,7 +44,8 @@ static t_bool	wic_create_encoder(t_wic *w)
 	if (SUCCEEDED(hr))
 	{
 		enc = w->encoder;
-		hr = enc->lpVtbl->Initialize(enc, w->stream, WICBitmapEncoderNoCache);
+		hr = enc->lpVtbl->Initialize(enc, (IStream *)w->stream,
+				WICBitmapEncoderNoCache);
 	}
 	return (SUCCEEDED(hr));
 }

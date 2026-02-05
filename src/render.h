@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   png.h                                              :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvkvkv <kvkvkv@student.42.rio>             #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 00:00:00 by kvkvkv            #+#    #+#             */
-/*   Updated: 2026/02/04 00:00:00 by kvkvkv           ###   ########.fr       */
+/*   Created: 2026/02/05 00:00:00 by kvkvkv            #+#    #+#             */
+/*   Updated: 2026/02/05 00:00:00 by kvkvkv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PNG_H
-# define PNG_H
+#ifndef RENDER_H
+# define RENDER_H
 
 # include "util.h"
 
-t_bool	save_png(const wchar_t *path, const t_image *img);
-t_bool	load_png(const wchar_t *path, t_image *out);
+t_bool	render_shadowed(const t_image *win, const wchar_t *out_path,
+			t_image *out);
 
 #endif
