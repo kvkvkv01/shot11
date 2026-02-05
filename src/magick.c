@@ -65,7 +65,7 @@ t_bool	magick_shadow_png(const wchar_t *in_path, const wchar_t *out_path)
 		return (FALSE);
 	if (FAILED(StringCchPrintfW(cmd, ARRAYSIZE(cmd),
 				L"\"%s\" \"%s\" ( +clone -background black "
-				L"-shadow 50x50+30+30 ) +swap -background none "
+				L"-shadow 40x50+0+36 ) +swap -background transparent "
 				L"-layers merge +repage \"%s\"",
 				exe, in_path, out_path)))
 		return (FALSE);
