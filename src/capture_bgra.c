@@ -67,8 +67,7 @@ t_bool	capture_window_bgra(HWND hwnd, const RECT *bounds, t_image *out_img)
 		return (FALSE);
 	if (!capture_setup(bounds, &cap))
 		return (FALSE);
-	if (!capture_try_print(hwnd, cap.hdc, (BYTE *)cap.bits, cap.size))
-		capture_try_blt(cap.hdc, bounds, cap.width, cap.height);
+	capture_merge_print(hwnd, &cap, bounds);
 	capture_fill_alpha((BYTE *)cap.bits, cap.size);
 	ok = image_create(out_img, cap.width, cap.height);
 	if (ok)
