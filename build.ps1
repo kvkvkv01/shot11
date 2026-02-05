@@ -43,6 +43,8 @@ function Import-VcVars64 {
 
 if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue)) {
     Import-VcVars64
+} elseif (-not $env:INCLUDE) {
+    Import-VcVars64
 }
 
 $flags = @('/nologo', '/W4', '/DUNICODE', '/D_UNICODE')
