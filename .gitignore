@@ -1,0 +1,17 @@
+# Build artifacts
+*.obj
+*.exe
+*.ilk
+*.pdb
+vc*.pdb
+*.idb
+*.tlog
+*.log
+*.tmp
+*.res
+*.exp
+*.lib
+
+# CMake build dirs
+build/
+cmake-build*/
