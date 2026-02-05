@@ -45,6 +45,7 @@ static t_bool	capture_setup(const RECT *b, struct s_capture *cap)
 	}
 	cap->old = SelectObject(cap->hdc, cap->hbm);
 	cap->size = (size_t)cap->width * (size_t)cap->height * 4;
+	ZeroMemory(cap->bits, cap->size);
 	return (TRUE);
 }
 

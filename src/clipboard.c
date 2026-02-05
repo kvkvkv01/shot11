@@ -44,9 +44,24 @@ static t_bool	fill_global_bits(HGLOBAL hmem, const t_image *img,
 	return (TRUE);
 }
 
+static t_bool	clipboard_open(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 10)
+	{
+		if (OpenClipboard(NULL))
+			return (TRUE);
+		Sleep(10);
+		i++;
+	}
+	return (FALSE);
+}
+
 static t_bool	write_clipboard(HGLOBAL hmem)
 {
-	if (!OpenClipboard(NULL))
+	if (!clipboard_open())
 		return (FALSE);
 	EmptyClipboard();
 	if (!SetClipboardData(CF_DIBV5, hmem))
