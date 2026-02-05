@@ -12,7 +12,6 @@
 #include "render.h"
 #include "magick.h"
 #include "png.h"
-#include "shadow.h"
 #include "util.h"
 
 static t_bool	render_temp_path(wchar_t *out, size_t cch)
@@ -50,30 +49,13 @@ static t_bool	render_magick(const t_image *win, const wchar_t *out_path,
 	return (TRUE);
 }
 
-static t_bool	render_fallback(const t_image *win, const wchar_t *out_path,
-		t_image *out)
-{
-	t_shadow_params	params;
-
-	shadow_params_default(&params);
-	if (!create_shadowed_image(win, out, &params))
-		return (FALSE);
-	if (!save_png(out_path, out))
-	{
-		image_free(out);
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
 t_bool	render_shadowed(const t_image *win, const wchar_t *out_path,
 		t_image *out)
 {
-	if (magick_available())
+	if (!render_magick(win, out_path, out))
 	{
-		if (render_magick(win, out_path, out))
-			return (TRUE);
-		log_debug(L"ImageMagick failed, using fallback shadow");
+		log_debug(L"ImageMagick failed");
+		return (FALSE);
 	}
-	return (render_fallback(win, out_path, out));
+	return (TRUE);
 }

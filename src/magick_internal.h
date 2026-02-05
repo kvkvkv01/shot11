@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   magick.h                                           :+:      :+:    :+:   */
+/*   magick_internal.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvkvkv <kvkvkv@student.42.rio>             #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,12 +9,16 @@
 /*   Updated: 2026/02/05 00:00:00 by kvkvkv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MAGICK_H
-# define MAGICK_H
+#ifndef MAGICK_INTERNAL_H
+# define MAGICK_INTERNAL_H
 
-# include "util.h"
+# include "magick.h"
 
-t_bool	magick_shadow_png(const wchar_t *in_path,
-			const wchar_t *out_path);
+typedef struct s_magick_dir
+{
+	wchar_t				pat[MAX_PATH];
+	WIN32_FIND_DATAW	fd;
+	HANDLE				h;
+}	t_magick_dir;
 
 #endif

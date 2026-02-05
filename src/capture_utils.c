@@ -42,3 +42,17 @@ void	capture_try_blt(HDC hdc, const RECT *b, int w, int h)
 		SRCCOPY | CAPTUREBLT);
 	ReleaseDC(NULL, hdc_screen);
 }
+
+void	capture_fill_alpha(BYTE *bits, size_t size)
+{
+	size_t	i;
+
+	if (!bits)
+		return ;
+	i = 3;
+	while (i < size)
+	{
+		bits[i] = 0xFF;
+		i += 4;
+	}
+}

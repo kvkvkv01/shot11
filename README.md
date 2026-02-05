@@ -6,6 +6,7 @@ shadow, copy to clipboard, and save as PNG in the Windows Screenshots folder.
 **Runtime dependency**
 - ImageMagick (the `magick.exe` CLI must be in `PATH`).
 - Install with: `winget install ImageMagick.ImageMagick`
+- If `magick.exe` is not on `PATH`, set `MAGICK_EXE` to the full path.
 
 **Build (PowerShell)**
 ```

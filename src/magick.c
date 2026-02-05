@@ -9,9 +9,46 @@
 /*   Updated: 2026/02/05 00:00:00 by kvkvkv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "magick.h"
+#include "magick_internal.h"
 #include <strsafe.h>
-#include <stdlib.h>
+
+static t_bool	magick_try_entry(const wchar_t *root, const wchar_t *name,
+			wchar_t *out, size_t cch)
+{
+	if (FAILED(StringCchPrintfW(out, cch,
+				L"%s\\%s\\magick.exe", root, name)))
+		return (FALSE);
+	if (GetFileAttributesW(out) == INVALID_FILE_ATTRIBUTES)
+		return (FALSE);
+	return (TRUE);
+}
+
+static t_bool	magick_try_dir(const wchar_t *root, wchar_t *out, size_t cch)
+{
+	t_magick_dir	d;
+
+	if (FAILED(StringCchPrintfW(d.pat, ARRAYSIZE(d.pat),
+				L"%s\\ImageMagick-*", root)))
+		return (FALSE);
+	d.h = FindFirstFileW(d.pat, &d.fd);
+	if (d.h == INVALID_HANDLE_VALUE)
+		return (FALSE);
+	while (1)
+	{
+		if ((d.fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			&& magick_try_entry(root, d.fd.cFileName, out, cch))
+		{
+			FindClose(d.h);
+			return (TRUE);
+		}
+		if (!FindNextFileW(d.h, &d.fd))
+		{
+			FindClose(d.h);
+			return (FALSE);
+		}
+	}
+	return (FALSE);
+}
 
 static t_bool	magick_find(wchar_t *out, size_t cch)
 {
@@ -19,11 +56,21 @@ static t_bool	magick_find(wchar_t *out, size_t cch)
 
 	if (!out || cch == 0)
 		return (FALSE);
+	n = GetEnvironmentVariableW(L"MAGICK_EXE", out, (DWORD)cch);
+	if (n > 0 && n < (DWORD)cch)
+	{
+		if (GetFileAttributesW(out) != INVALID_FILE_ATTRIBUTES)
+			return (TRUE);
+	}
 	n = SearchPathW(NULL, L"magick.exe", NULL,
 			(DWORD)cch, out, NULL);
-	if (n == 0 || n >= (DWORD)cch)
-		return (FALSE);
-	return (TRUE);
+	if (n > 0 && n < (DWORD)cch)
+		return (TRUE);
+	if (magick_try_dir(L"C:\\Program Files", out, cch))
+		return (TRUE);
+	if (magick_try_dir(L"C:\\Program Files (x86)", out, cch))
+		return (TRUE);
+	return (FALSE);
 }
 
 static t_bool	magick_run(wchar_t *cmd)
@@ -45,13 +92,6 @@ static t_bool	magick_run(wchar_t *cmd)
 	CloseHandle(pi.hThread);
 	CloseHandle(pi.hProcess);
 	return (code == 0);
-}
-
-t_bool	magick_available(void)
-{
-	wchar_t	path[MAX_PATH];
-
-	return (magick_find(path, ARRAYSIZE(path)));
 }
 
 t_bool	magick_shadow_png(const wchar_t *in_path, const wchar_t *out_path)
