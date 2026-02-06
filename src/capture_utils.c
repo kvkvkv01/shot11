@@ -87,6 +87,7 @@ t_bool	capture_merge_print(HWND hwnd, struct s_capture *cap, const RECT *b)
 		capture_try_blt(cap->hdc, b, cap->width, cap->height);
 		return (FALSE);
 	}
+	capture_fix_print_offset(hwnd, b, cap);
 	print_copy = (BYTE *)malloc(cap->size);
 	if (print_copy)
 	{

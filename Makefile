@@ -16,7 +16,7 @@ LDFLAGS	= -municode
 LIBS	= -luser32 -lgdi32 -ldwmapi -lole32 -lshell32 -lwindowscodecs
 SRCS	= src/main.c src/app.c src/app_save.c src/capture.c \
 		src/capture_bgra.c \
-		src/capture_utils.c src/shadow.c src/shadow_calc.c \
+		src/capture_utils.c src/capture_shift.c src/shadow.c src/shadow_calc.c \
 		src/shadow_alpha.c src/shadow_draw.c src/shadow_blur_boxes.c \
 	src/shadow_blur_h.c src/shadow_blur_v.c src/shadow_blur_alpha.c \
 	src/clipboard.c src/png.c src/png_load.c src/png_wic_open.c \

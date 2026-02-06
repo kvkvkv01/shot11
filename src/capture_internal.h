@@ -28,6 +28,8 @@ struct s_capture
 t_bool	capture_try_print(HWND hwnd, HDC hdc, BYTE *bits, size_t size);
 void	capture_try_blt(HDC hdc, const RECT *b, int w, int h);
 void	capture_fill_alpha(BYTE *bits, size_t size);
+void	capture_fix_print_offset(HWND hwnd, const RECT *ext,
+			struct s_capture *cap);
 t_bool	capture_merge_print(HWND hwnd, struct s_capture *cap,
 			const RECT *b);
 
