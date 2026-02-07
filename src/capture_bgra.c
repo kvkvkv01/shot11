@@ -70,6 +70,7 @@ t_bool	capture_window_bgra(HWND hwnd, const RECT *bounds, t_image *out_img)
 		return (FALSE);
 	capture_merge_print(hwnd, &cap, bounds);
 	capture_fill_alpha((BYTE *)cap.bits, cap.size);
+	capture_round_corners(hwnd, (BYTE *)cap.bits, cap.width, cap.height);
 	ok = image_create(out_img, cap.width, cap.height);
 	if (ok)
 		memcpy(out_img->pixels, cap.bits,

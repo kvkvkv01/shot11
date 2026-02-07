@@ -26,6 +26,13 @@ static t_bool	render_temp_path(wchar_t *out, size_t cch)
 		return (FALSE);
 	if (!GetTempFileNameW(dir, L"sh11", GetTickCount(), out))
 		return (FALSE);
+	n = (DWORD)lstrlenW(out);
+	if (n > 3)
+	{
+		out[n - 3] = L'p';
+		out[n - 2] = L'n';
+		out[n - 1] = L'g';
+	}
 	return (TRUE);
 }
 

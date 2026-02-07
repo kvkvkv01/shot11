@@ -75,6 +75,7 @@ $src = @(
     'src\capture_bgra.c',
     'src\capture_utils.c',
     'src\capture_shift.c',
+    'src\capture_round.c',
     'src\shadow.c',
     'src\shadow_calc.c',
     'src\shadow_alpha.c',
