@@ -80,14 +80,21 @@ int WINAPI	WinMain(HINSTANCE inst, HINSTANCE prev,
 		LPSTR cmd, int show)
 {
 	HWND	hwnd;
+	HRESULT	hr;
 
 	(void)prev;
 	(void)cmd;
 	(void)show;
 	SetProcessDpiAwarenessContext(
 		DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED
+	hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED
 		| COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
+	{
+		MessageBoxW(NULL, L"COM init failed",
+			L"Shot11", MB_OK | MB_ICONERROR);
+		return (1);
+	}
 	if (!app_register_class(inst))
 		return (1);
 	hwnd = app_init_window(inst);
