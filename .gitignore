@@ -1,5 +1,6 @@
 # Build artifacts
 *.obj
+*.o
 *.exe
 *.ilk
 *.pdb
@@ -11,6 +12,7 @@ vc*.pdb
 *.res
 *.exp
 *.lib
+nul
 
 # CMake build dirs
 build/
