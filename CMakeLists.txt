@@ -3,7 +3,7 @@ project(shot11 C)
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(shot11
+add_executable(shot11 WIN32
   src/main.c
   src/app.c
   src/app_save.c
@@ -28,6 +28,7 @@ add_executable(shot11
   src/path.c
   src/magick.c
   src/render.c
+  src/tray.c
   src/util.c
   src/util_mem.c
   src/util_str.c

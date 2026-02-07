@@ -92,6 +92,7 @@ $src = @(
     'src\path.c',
     'src\magick.c',
     'src\render.c',
+    'src\tray.c',
     'src\util.c',
     'src\util_mem.c',
     'src\util_str.c',
@@ -108,4 +109,4 @@ $libs = @(
     'windowscodecs.lib'
 )
 
-& cl.exe @flags /Fe:shot11.exe @src /link @libs
+& cl.exe @flags /Fe:shot11.exe @src /link /SUBSYSTEM:WINDOWS @libs
