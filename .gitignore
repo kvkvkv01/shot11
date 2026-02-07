@@ -14,6 +14,12 @@ vc*.pdb
 *.lib
 nul
 
+# MSIX packaging
+*.msix
+*.pfx
+Assets/
+msix_stage/
+
 # CMake build dirs
 build/
 cmake-build*/
