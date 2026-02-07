@@ -1,64 +1,99 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvkvkv <kvkvkv@student.42.rio>             #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 00:00:00 by kvkvkv            #+#    #+#             */
-/*   Updated: 2026/02/04 00:00:00 by kvkvkv           ###   ########.fr       */
+/*   Updated: 2026/02/07 00:00:00 by kvkvkv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <windows.h>
 
 #include "app.h"
+#include "tray.h"
 #include "util.h"
 
 #define HOTKEY_ID 1
 
-static t_bool	init_com(void)
+static LRESULT CALLBACK	wnd_proc(HWND hw, UINT msg, WPARAM wp,
+		LPARAM lp)
 {
-	HRESULT	hr;
-
-	hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED
-			| COINIT_DISABLE_OLE1DDE);
-	if (SUCCEEDED(hr))
-		return (TRUE);
-	return (FALSE);
+	if (msg == WM_HOTKEY && wp == HOTKEY_ID)
+		app_handle_hotkey();
+	else if (msg == WM_TRAY)
+		tray_handle_msg(hw, lp);
+	else if (msg == WM_COMMAND && LOWORD(wp) == IDM_EXIT)
+		DestroyWindow(hw);
+	else if (msg == WM_DESTROY)
+	{
+		tray_destroy(hw);
+		PostQuitMessage(0);
+	}
+	else
+		return (DefWindowProcW(hw, msg, wp, lp));
+	return (0);
 }
 
-static t_bool	register_hotkey(void)
+static t_bool	app_register_class(HINSTANCE inst)
 {
-	if (!RegisterHotKey(NULL, HOTKEY_ID, MOD_CONTROL | MOD_ALT, 'S'))
-		return (FALSE);
-	return (TRUE);
+	WNDCLASSW	wc;
+
+	ZeroMemory(&wc, sizeof(wc));
+	wc.lpfnWndProc = wnd_proc;
+	wc.hInstance = inst;
+	wc.lpszClassName = L"Shot11Class";
+	return (RegisterClassW(&wc) != 0);
+}
+
+static HWND	app_init_window(HINSTANCE inst)
+{
+	HWND	hwnd;
+
+	hwnd = CreateWindowExW(0, L"Shot11Class", L"Shot11", 0,
+			0, 0, 0, 0, HWND_MESSAGE, NULL, inst, NULL);
+	if (!hwnd)
+		return (NULL);
+	if (!RegisterHotKey(hwnd, HOTKEY_ID,
+				MOD_CONTROL | MOD_ALT, 'S'))
+	{
+		DestroyWindow(hwnd);
+		return (NULL);
+	}
+	tray_create(hwnd);
+	return (hwnd);
 }
 
 static void	message_loop(void)
 {
 	MSG	msg;
-	int	ret;
 
-	ret = (int)GetMessageW(&msg, NULL, 0, 0);
-	while (ret > 0)
+	while (GetMessageW(&msg, NULL, 0, 0) > 0)
 	{
-		if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_ID)
-			app_handle_hotkey();
-		ret = (int)GetMessageW(&msg, NULL, 0, 0);
+		TranslateMessage(&msg);
+		DispatchMessageW(&msg);
 	}
 }
 
-int	main(void)
+int WINAPI	WinMain(HINSTANCE inst, HINSTANCE prev,
+		LPSTR cmd, int show)
 {
-	t_bool	com_ok;
+	HWND	hwnd;
 
-	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-	com_ok = init_com();
-	if (!register_hotkey())
-		log_debug(L"RegisterHotKey failed");
+	(void)prev;
+	(void)cmd;
+	(void)show;
+	SetProcessDpiAwarenessContext(
+		DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED
+		| COINIT_DISABLE_OLE1DDE);
+	if (!app_register_class(inst))
+		return (1);
+	hwnd = app_init_window(inst);
+	if (!hwnd)
+		return (1);
 	message_loop();
-	UnregisterHotKey(NULL, HOTKEY_ID);
-	if (com_ok)
-		CoUninitialize();
+	CoUninitialize();
 	return (0);
 }
