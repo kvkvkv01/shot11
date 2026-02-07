@@ -36,8 +36,7 @@ static t_bool	render_temp_path(wchar_t *out, size_t cch)
 	return (TRUE);
 }
 
-static t_bool	render_magick(const t_image *win, const wchar_t *out_path,
-		t_image *out)
+static t_bool	render_magick(const t_image *win, const wchar_t *out_path)
 {
 	wchar_t	tmp[MAX_PATH];
 
@@ -51,15 +50,12 @@ static t_bool	render_magick(const t_image *win, const wchar_t *out_path,
 		return (FALSE);
 	}
 	DeleteFileW(tmp);
-	if (!load_png(out_path, out))
-		return (FALSE);
 	return (TRUE);
 }
 
-t_bool	render_shadowed(const t_image *win, const wchar_t *out_path,
-		t_image *out)
+t_bool	render_shadowed(const t_image *win, const wchar_t *out_path)
 {
-	if (!render_magick(win, out_path, out))
+	if (!render_magick(win, out_path))
 	{
 		log_debug(L"ImageMagick failed");
 		return (FALSE);

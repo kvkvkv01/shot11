@@ -14,6 +14,6 @@
 
 # include "util.h"
 
-t_bool	clipboard_set_image(const t_image *img);
+t_bool	clipboard_set_png(const wchar_t *path);
 
 #endif

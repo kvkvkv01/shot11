@@ -35,13 +35,10 @@ static void	app_free_paths(wchar_t *folder, wchar_t *path)
 
 static void	app_render_clip(const t_image *win, const wchar_t *path)
 {
-	t_image	out;
-
-	if (!render_shadowed(win, path, &out))
+	if (!render_shadowed(win, path))
 		return ;
-	if (!clipboard_set_image(&out))
+	if (!clipboard_set_png(path))
 		log_debug(L"Failed to copy to clipboard");
-	image_free(&out);
 }
 
 void	app_save(HWND hwnd, const t_image *win)

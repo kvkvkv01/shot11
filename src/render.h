@@ -14,7 +14,6 @@
 
 # include "util.h"
 
-t_bool	render_shadowed(const t_image *win, const wchar_t *out_path,
-			t_image *out);
+t_bool	render_shadowed(const t_image *win, const wchar_t *out_path);
 
 #endif
