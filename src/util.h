@@ -22,6 +22,7 @@ typedef struct s_image
 	int		width;
 	int		height;
 	int		stride;
+	size_t	size;
 	BYTE	*pixels;
 }	t_image;
 

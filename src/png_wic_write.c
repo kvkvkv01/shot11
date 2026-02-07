@@ -30,7 +30,7 @@ static HRESULT	wic_make_bitmap(t_wic *w, const t_image *img)
 	return (fac->lpVtbl->CreateBitmapFromMemory(fac,
 			(UINT)img->width, (UINT)img->height, fmt,
 			(UINT)img->stride,
-			(UINT)(img->stride * img->height),
+			(UINT)img->size,
 		img->pixels, &w->bitmap));
 }
 

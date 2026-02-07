@@ -61,7 +61,7 @@ static t_bool	wic_copy_pixels(IWICBitmapSource *src, t_image *out)
 	if (!image_create(out, (int)w, (int)h))
 		return (FALSE);
 	if (FAILED(src->lpVtbl->CopyPixels(src, NULL, (UINT)out->stride,
-				(UINT)(out->stride * out->height), out->pixels)))
+				(UINT)out->size, out->pixels)))
 	{
 		image_free(out);
 		return (FALSE);

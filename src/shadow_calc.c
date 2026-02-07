@@ -23,7 +23,7 @@ t_bool	shadow_alloc_image(t_image *out, const t_shadow_state *s)
 {
 	if (!image_create(out, s->dst_w, s->dst_h))
 		return (FALSE);
-	memset(out->pixels, 0, (size_t)out->stride * out->height);
+	memset(out->pixels, 0, out->size);
 	return (TRUE);
 }
 
