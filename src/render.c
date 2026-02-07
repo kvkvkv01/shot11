@@ -24,15 +24,15 @@ static t_bool	render_temp_path(wchar_t *out, size_t cch)
 	n = GetTempPathW(ARRAYSIZE(dir), dir);
 	if (n == 0 || n >= ARRAYSIZE(dir))
 		return (FALSE);
-	if (!GetTempFileNameW(dir, L"sh11", GetTickCount(), out))
+	if (!GetTempFileNameW(dir, L"sh11", 0, out))
 		return (FALSE);
+	DeleteFileW(out);
 	n = (DWORD)lstrlenW(out);
-	if (n > 3)
-	{
-		out[n - 3] = L'p';
-		out[n - 2] = L'n';
-		out[n - 1] = L'g';
-	}
+	if (n <= 3)
+		return (FALSE);
+	out[n - 3] = L'p';
+	out[n - 2] = L'n';
+	out[n - 1] = L'g';
 	return (TRUE);
 }
 
@@ -43,7 +43,10 @@ static t_bool	render_magick(const t_image *win, const wchar_t *out_path)
 	if (!render_temp_path(tmp, ARRAYSIZE(tmp)))
 		return (FALSE);
 	if (!save_png(tmp, win))
+	{
+		DeleteFileW(tmp);
 		return (FALSE);
+	}
 	if (!magick_shadow_png(tmp, out_path))
 	{
 		DeleteFileW(tmp);
